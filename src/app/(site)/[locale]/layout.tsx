@@ -8,7 +8,7 @@ import { Header } from "@/components/ui/Header";
 import { Footer } from "@/components/ui/Footer";
 import { ContentNotice } from "@/components/ui/ContentNotice";
 import { LOCALES, LOCALE_TAGS, isActiveLocale, type Locale } from "@/lib/i18n";
-import "../globals.css";
+import "../../globals.css";
 
 const display = Instrument_Serif({
   subsets: ["latin"],

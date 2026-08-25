@@ -3,7 +3,7 @@
  * One repo, one deploy, one place to log in.
  */
 import { NextStudio } from "next-sanity/studio";
-import config from "../../../../sanity.config";
+import config from "../../../../../sanity.config";
 
 export const dynamic = "force-static";
 export { metadata, viewport } from "next-sanity/studio";
