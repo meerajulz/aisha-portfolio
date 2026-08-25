@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+.env.local
+.env*.local
+dist
+*.log
+.DS_Store
+.sanity
