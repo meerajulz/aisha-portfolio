@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { localize } from "@sanity-cfg/lib/localize";
 import { urlForImage } from "@sanity-cfg/lib/image";
-import { VideoEmbed } from "@/components/ui/VideoEmbed";
+import { BackgroundVideo } from "@/components/ui/BackgroundVideo";
 import { resolveLink } from "@/lib/links";
 import type { Locale } from "@/lib/i18n";
 
@@ -41,25 +41,33 @@ export function Hero({ data, locale }: { data: any; locale: Locale }) {
         )}
       </div>
 
-      {image?.asset && (
-        <figure className="relative mt-16 aspect-[16/9] w-full md:aspect-[21/9]">
-          <Image
-            src={urlForImage(image).width(2400).url()}
-            alt={localize<string>(image.alt, locale) ?? ""}
-            fill
-            priority
-            placeholder={image.asset.metadata?.lqip ? "blur" : undefined}
-            blurDataURL={image.asset.metadata?.lqip}
-            sizes="100vw"
-            className="object-cover"
+      {video?.url ? (
+        <div className="relative mt-16 aspect-[16/9] w-full overflow-hidden md:aspect-[21/9]">
+          <BackgroundVideo
+            url={video.url}
+            title={localize<string>(video.title, locale)}
+            posterUrl={
+              image?.asset ? urlForImage(image).width(2400).url() : undefined
+            }
+            posterAlt={localize<string>(image?.alt, locale) ?? ""}
+            posterBlur={image?.asset?.metadata?.lqip}
           />
-        </figure>
-      )}
-
-      {!image?.asset && video?.url && (
-        <div className="mt-16">
-          <VideoEmbed url={video.url} title={localize<string>(video.title, locale)} />
         </div>
+      ) : (
+        image?.asset && (
+          <figure className="relative mt-16 aspect-[16/9] w-full md:aspect-[21/9]">
+            <Image
+              src={urlForImage(image).width(2400).url()}
+              alt={localize<string>(image.alt, locale) ?? ""}
+              fill
+              priority
+              placeholder={image.asset.metadata?.lqip ? "blur" : undefined}
+              blurDataURL={image.asset.metadata?.lqip}
+              sizes="100vw"
+              className="object-cover"
+            />
+          </figure>
+        )
       )}
     </section>
   );

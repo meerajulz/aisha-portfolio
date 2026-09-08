@@ -239,6 +239,60 @@ export const linkItem = defineType({
   preview: { select: { title: "label.es" } },
 });
 
+/**
+ * A top-level header entry: behaves like a linkItem (so it can point somewhere
+ * on its own) but may also carry a submenu of linkItems. Used only in the main
+ * navigation — CTAs and the footer stay flat.
+ */
+export const navItem = defineType({
+  name: "navItem",
+  title: "Elemento del menú",
+  type: "object",
+  fields: [
+    defineField({ name: "label", title: "Texto del enlace", type: "localeString" }),
+    defineField({
+      name: "kind",
+      title: "Destino",
+      type: "string",
+      options: {
+        list: [
+          { title: "Una página de la web", value: "internal" },
+          { title: "Una dirección externa", value: "external" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "internal",
+    }),
+    defineField({
+      name: "page",
+      title: "Página",
+      type: "reference",
+      to: [{ type: "page" }, { type: "project" }],
+      hidden: ({ parent }) => parent?.kind !== "internal",
+    }),
+    defineField({
+      name: "href",
+      title: "Dirección web",
+      type: "url",
+      hidden: ({ parent }) => parent?.kind !== "external",
+    }),
+    defineField({
+      name: "children",
+      title: "Submenú",
+      description: "Opcional. Enlaces que aparecen al pasar el cursor sobre este elemento.",
+      type: "array",
+      of: [defineArrayMember({ type: "linkItem" })],
+    }),
+  ],
+  preview: {
+    select: { title: "label.es", children: "children" },
+    prepare: ({ title, children }) => ({
+      title: title || "Elemento del menú",
+      subtitle: children?.length ? `${children.length} en submenú` : undefined,
+    }),
+  },
+});
+
 /** The union used by page.sections[] — the single list to extend. */
 export const SECTION_TYPES = [
   "heroSection",

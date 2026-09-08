@@ -14,6 +14,7 @@ import {
   workshopsSection,
   comingSoonSection,
   linkItem,
+  navItem,
 } from "./objects/sections";
 import { page } from "./documents/page";
 import { project } from "./documents/project";
