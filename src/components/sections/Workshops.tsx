@@ -2,6 +2,7 @@ import Image from "next/image";
 import { localize } from "@sanity-cfg/lib/localize";
 import { urlForImage } from "@sanity-cfg/lib/image";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { WorkshopSignup } from "@/components/ui/WorkshopSignup";
 import { LOCALE_TAGS, type Locale } from "@/lib/i18n";
 
 /**
@@ -66,15 +67,19 @@ export function Workshops({ data, locale }: { data: any; locale: Locale }) {
                   {w.price && <span className="label">{localize<string>(w.price, locale)}</span>}
                   {w.soldOut ? (
                     <span className="label">Plazas agotadas</span>
-                  ) : (
+                  ) : w.bookingUrl ? (
                     <a
-                      href={w.bookingUrl || "#contacto"}
-                      target={w.bookingUrl ? "_blank" : undefined}
-                      rel={w.bookingUrl ? "noopener noreferrer" : undefined}
+                      href={w.bookingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="border-b border-[var(--color-accent)] pb-0.5 text-sm text-[var(--color-accent)] transition-colors hover:border-[var(--color-fg)] hover:text-[var(--color-fg)]"
                     >
                       Inscribirse
                     </a>
+                  ) : (
+                    <WorkshopSignup
+                      workshop={`${localize<string>(w.title, locale)} · ${formatRange(w.startDate, w.endDate, locale)}`}
+                    />
                   )}
                 </div>
               </div>

@@ -47,7 +47,7 @@ const SECTIONS = `
     },
     _type == "comingSoonSection" => { heading, body, cta { ${LINK} } },
     _type == "contactCtaSection" => {
-      heading, intro, showClassPicker, confirmation,
+      heading, intro, purpose, confirmation,
       "classOptions": *[_type == "class" && active == true] | order(order asc) { _id, title }
     }
   }

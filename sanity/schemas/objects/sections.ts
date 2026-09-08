@@ -147,16 +147,29 @@ export const contactCtaSection = defineType({
     defineField({ name: "heading", title: "Título", type: "localeString" }),
     defineField({ name: "intro", title: "Introducción", type: "localeText" }),
     defineField({
-      name: "showClassPicker",
-      title: "Incluir selector de clase",
+      name: "purpose",
+      title: "Tipo de formulario",
       description:
-        "Añade un desplegable con tus clases activas para que la persona indique cuál le interesa.",
-      type: "boolean",
-      initialValue: true,
+        "«Contacto general» para preguntas normales. «Clases» añade el selector de clase, el nivel y la disponibilidad.",
+      type: "string",
+      options: {
+        list: [
+          { title: "Contacto general", value: "general" },
+          { title: "Clases", value: "class" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "general",
     }),
     defineField({ name: "confirmation", title: "Mensaje de confirmación", type: "localeText" }),
   ],
-  preview: { select: { title: "heading.es" }, prepare: ({ title }) => ({ title: title || "Contacto", subtitle: "Formulario de contacto" }) },
+  preview: {
+    select: { title: "heading.es", purpose: "purpose" },
+    prepare: ({ title, purpose }) => ({
+      title: title || "Contacto",
+      subtitle: purpose === "class" ? "Formulario · Clases" : "Formulario de contacto",
+    }),
+  },
 });
 
 export const workshopsSection = defineType({

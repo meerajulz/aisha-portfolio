@@ -3,7 +3,9 @@
 import { Resend } from "resend";
 
 /**
- * Contact form handler.
+ * Form handler for every form on the site — general contact, class enquiries
+ * and workshop sign-ups. They all email the same inbox; the `purpose` field
+ * only changes the subject line and which extra fields are included.
  *
  * reply-to is set to the visitor's address, so she opens the email and hits
  * Reply. No dashboard, no login, no new tool to learn.
@@ -48,6 +50,14 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
 
 export type ContactState = { status: "idle" | "sent" | "error"; message?: string };
 
+const SUBJECTS = {
+  general: (name: string) => `Consulta desde la web — ${name}`,
+  class: (name: string, extra?: string) =>
+    `Clase${extra ? `: ${extra}` : ""} — ${name}`,
+  workshop: (name: string, extra?: string) =>
+    `Inscripción${extra ? `: ${extra}` : ""} — ${name}`,
+} as const;
+
 export async function sendContactMessage(
   _prev: ContactState,
   formData: FormData,
@@ -67,13 +77,25 @@ export async function sendContactMessage(
     };
   }
 
+  const purposeRaw = String(formData.get("purpose") ?? "general");
+  const purpose = (["general", "class", "workshop"] as const).includes(purposeRaw as never)
+    ? (purposeRaw as "general" | "class" | "workshop")
+    : "general";
+
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
+  const phone = String(formData.get("phone") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
   const classInterest = String(formData.get("class") ?? "").trim();
+  const workshop = String(formData.get("workshop") ?? "").trim();
+  const level = String(formData.get("level") ?? "").trim();
+  const schedule = String(formData.get("schedule") ?? "").trim();
+  const people = String(formData.get("people") ?? "").trim();
   const token = String(formData.get("cf-turnstile-response") ?? "");
 
-  if (!name || !email || !message) {
+  // Name and email are always required; a message is required unless it's a
+  // workshop sign-up (there, the workshop + contact details are enough).
+  if (!name || !email || (!message && purpose !== "workshop")) {
     return { status: "error", message: "Faltan datos. Revisa el formulario." };
   }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
@@ -88,22 +110,29 @@ export async function sendContactMessage(
     }
   }
 
+  const topic = purpose === "workshop" ? workshop : classInterest;
+  const subject = SUBJECTS[purpose](name, topic || undefined);
+
   try {
     await resend.emails.send({
       from: process.env.CONTACT_FROM_EMAIL!,
       to: process.env.CONTACT_TO_EMAIL!,
       replyTo: email, // <- the whole point
-      subject: classInterest
-        ? `Consulta sobre ${classInterest} — ${name}`
-        : `Consulta desde la web — ${name}`,
+      subject,
       text: [
+        `Tipo: ${{ general: "Contacto general", class: "Clase", workshop: "Inscripción a workshop" }[purpose]}`,
+        workshop ? `Workshop: ${workshop}` : null,
+        classInterest ? `Clase de interés: ${classInterest}` : null,
         `Nombre: ${name}`,
         `Correo: ${email}`,
-        classInterest ? `Clase de interés: ${classInterest}` : null,
-        "",
-        message,
+        phone ? `Teléfono: ${phone}` : null,
+        level ? `Nivel: ${level}` : null,
+        schedule ? `Disponibilidad: ${schedule}` : null,
+        people ? `Nº de personas: ${people}` : null,
+        message ? "" : null,
+        message || null,
       ]
-        .filter(Boolean)
+        .filter((line) => line !== null)
         .join("\n"),
     });
     return { status: "sent" };
