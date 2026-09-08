@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 
-type Slide = { src: string; alt: string; width: number; height: number };
+type Slide = { src: string; alt: string; width: number; height: number; credit?: string };
 
 /**
  * Horizontal, swipeable image carousel used for project galleries with many
@@ -29,14 +29,17 @@ export function GalleryCarousel({ images }: { images: Slide[] }) {
             key={i}
             className="w-[85%] shrink-0 snap-center sm:w-[48%] lg:w-[32%]"
           >
-            <Image
-              src={img.src}
-              alt={img.alt}
-              width={img.width}
-              height={img.height}
-              sizes="(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 32vw"
-              className="h-auto w-full"
-            />
+            <figure>
+              <Image
+                src={img.src}
+                alt={img.alt}
+                width={img.width}
+                height={img.height}
+                sizes="(max-width: 640px) 85vw, (max-width: 1024px) 48vw, 32vw"
+                className="h-auto w-full"
+              />
+              {img.credit && <figcaption className="label mt-2">{img.credit}</figcaption>}
+            </figure>
           </li>
         ))}
       </ul>
