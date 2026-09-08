@@ -2,6 +2,7 @@ import Link from "next/link";
 import { localize } from "@sanity-cfg/lib/localize";
 import { resolveLink } from "@/lib/links";
 import { LOCALES, LOCALE_LABELS, localePath, type Locale } from "@/lib/i18n";
+import { MobileMenu } from "@/components/ui/MobileMenu";
 
 export function Header({
   nav,
@@ -53,6 +54,8 @@ export function Header({
               ))}
             </ul>
           )}
+
+          <MobileMenu items={items} locale={locale} />
         </nav>
       </div>
     </header>

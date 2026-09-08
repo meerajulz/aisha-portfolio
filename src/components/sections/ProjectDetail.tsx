@@ -3,6 +3,7 @@ import { PortableText } from "@portabletext/react";
 import { localize } from "@sanity-cfg/lib/localize";
 import { urlForImage } from "@sanity-cfg/lib/image";
 import { VideoEmbed } from "@/components/ui/VideoEmbed";
+import { GalleryCarousel } from "@/components/ui/GalleryCarousel";
 import type { Locale } from "@/lib/i18n";
 
 export function ProjectDetail({ project, locale }: { project: any; locale: Locale }) {
@@ -55,7 +56,16 @@ export function ProjectDetail({ project, locale }: { project: any; locale: Local
         </div>
       ) : null}
 
-      {project.gallery?.length ? (
+      {project.gallery?.length > 3 ? (
+        <GalleryCarousel
+          images={project.gallery.map((image: any) => ({
+            src: urlForImage(image).width(1400).url(),
+            alt: localize<string>(image.alt, locale) ?? "",
+            width: image.asset?.metadata?.dimensions?.width ?? 1000,
+            height: image.asset?.metadata?.dimensions?.height ?? 1400,
+          }))}
+        />
+      ) : project.gallery?.length ? (
         <div className="mx-auto max-w-6xl columns-1 gap-6 px-6 pb-24 sm:columns-2 md:px-16 [&>figure]:mb-6">
           {project.gallery.map((image: any, i: number) => (
             <figure key={i} className="break-inside-avoid">
