@@ -11,11 +11,12 @@
 @theme {
   --color-bg: #f5f4f1;          /* chalk — paper, slightly grey */
   --color-surface: #eae8e2;     /* recessed panels, alternating sections */
-  --color-fg: #1a1d24;          /* sumi — cool near-black */
+  --color-fg: #b3231b;          /* red — body text */
   --color-fg-muted: #5f6169;    /* secondary copy */
   --color-accent: #2e3a5c;      /* aizome indigo — links, actions */
   --color-accent-soft: #6b7794; /* hover, de-emphasised accent */
-  --color-rule: #b9b3a5;        /* hemp — hairlines, the rope */
+  --color-rule: #b9b3a5;        /* hemp — hairlines */
+  --color-rope: #b3231b;        /* red — the signature rope line */
 
   --font-display: var(--font-instrument-serif), Georgia, serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
@@ -34,7 +35,7 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-fg);
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
   -webkit-font-smoothing: antialiased;
 }
 

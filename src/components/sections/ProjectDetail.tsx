@@ -57,14 +57,16 @@ export function ProjectDetail({ project, locale }: { project: any; locale: Local
       ) : null}
 
       {project.gallery?.length > 3 ? (
-        <GalleryCarousel
-          images={project.gallery.map((image: any) => ({
-            src: urlForImage(image).width(1400).url(),
-            alt: localize<string>(image.alt, locale) ?? "",
-            width: image.asset?.metadata?.dimensions?.width ?? 1000,
-            height: image.asset?.metadata?.dimensions?.height ?? 1400,
-          }))}
-        />
+        <div className="pb-24">
+          <GalleryCarousel
+            images={project.gallery.map((image: any) => ({
+              src: urlForImage(image).width(1400).url(),
+              alt: localize<string>(image.alt, locale) ?? "",
+              width: image.asset?.metadata?.dimensions?.width ?? 1000,
+              height: image.asset?.metadata?.dimensions?.height ?? 1400,
+            }))}
+          />
+        </div>
       ) : project.gallery?.length ? (
         <div className="mx-auto max-w-6xl columns-1 gap-6 px-6 pb-24 sm:columns-2 md:px-16 [&>figure]:mb-6">
           {project.gallery.map((image: any, i: number) => (

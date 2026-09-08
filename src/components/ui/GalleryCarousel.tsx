@@ -19,10 +19,10 @@ export function GalleryCarousel({ images }: { images: Slide[] }) {
   };
 
   return (
-    <div className="group relative mx-auto max-w-6xl px-6 pb-24 md:px-16">
+    <div className="group relative w-full">
       <ul
         ref={track}
-        className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {images.map((img, i) => (
           <li
@@ -48,7 +48,7 @@ export function GalleryCarousel({ images }: { images: Slide[] }) {
         type="button"
         onClick={() => page(-1)}
         aria-label="Imagen anterior"
-        className="absolute left-8 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[var(--color-bg)]/80 text-[var(--color-fg)] shadow backdrop-blur transition hover:bg-[var(--color-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] md:left-20"
+        className="absolute left-3 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[var(--color-bg)]/80 text-[var(--color-fg)] shadow backdrop-blur transition hover:bg-[var(--color-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] md:left-6"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -58,7 +58,7 @@ export function GalleryCarousel({ images }: { images: Slide[] }) {
         type="button"
         onClick={() => page(1)}
         aria-label="Imagen siguiente"
-        className="absolute right-8 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[var(--color-bg)]/80 text-[var(--color-fg)] shadow backdrop-blur transition hover:bg-[var(--color-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] md:right-20"
+        className="absolute right-3 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[var(--color-bg)]/80 text-[var(--color-fg)] shadow backdrop-blur transition hover:bg-[var(--color-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] md:right-6"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

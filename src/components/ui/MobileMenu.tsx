@@ -51,7 +51,7 @@ export function MobileMenu({ items, locale }: { items: any[]; locale: Locale }) 
                 <Link
                   href={resolveLink(item, locale)}
                   onClick={() => setOpen(false)}
-                  className="block py-3 text-base text-[var(--color-fg-muted)] transition-colors hover:text-[var(--color-accent)]"
+                  className="label block py-4 transition-colors hover:text-[var(--color-accent)]"
                 >
                   {localize<string>(item.label, locale)}
                 </Link>

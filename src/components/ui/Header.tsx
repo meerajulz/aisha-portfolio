@@ -28,7 +28,7 @@ export function Header({
               <li key={i}>
                 <Link
                   href={resolveLink(item, locale)}
-                  className="text-sm text-[var(--color-fg-muted)] transition-colors hover:text-[var(--color-accent)]"
+                  className="label transition-colors hover:text-[var(--color-accent)]"
                 >
                   {localize<string>(item.label, locale)}
                 </Link>

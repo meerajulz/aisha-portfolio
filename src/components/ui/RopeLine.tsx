@@ -64,7 +64,7 @@ export function RopeLine({ segments = 6 }: { segments?: number }) {
     >
       <path
         d={`M 20 0 ${path}`}
-        stroke="var(--color-rule)"
+        stroke="var(--color-rope)"
         strokeWidth="1"
         strokeLinecap="round"
         pathLength={1}
