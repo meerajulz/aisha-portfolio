@@ -18,11 +18,13 @@ type Purpose = "general" | "class" | "workshop";
 export function ContactForm({
   purpose = "general",
   classOptions = [],
+  workshopOptions = [],
   workshop,
   confirmation,
 }: {
   purpose?: Purpose;
   classOptions?: { id: string; label: string }[];
+  workshopOptions?: { id: string; label: string }[];
   workshop?: string;
   confirmation?: string;
 }) {
@@ -30,6 +32,8 @@ export function ContactForm({
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const showClassPicker = purpose === "class" && classOptions.length > 0;
+  // A picker only when the workshop isn't already fixed (inline sign-up passes one).
+  const showWorkshopPicker = purpose === "workshop" && !workshop && workshopOptions.length > 0;
   const showLevel = purpose !== "general";
   const showSchedule = purpose !== "general";
   const showPeople = purpose === "workshop";
@@ -73,6 +77,16 @@ export function ContactForm({
         {showClassPicker && (
           <Select id="class" name="class" label="Clase que te interesa" placeholder="Sin especificar">
             {classOptions.map((option) => (
+              <option key={option.id} value={option.label} className="bg-[var(--color-bg)]">
+                {option.label}
+              </option>
+            ))}
+          </Select>
+        )}
+
+        {showWorkshopPicker && (
+          <Select id="workshop" name="workshop" label="Workshop que te interesa" placeholder="Sin especificar">
+            {workshopOptions.map((option) => (
               <option key={option.id} value={option.label} className="bg-[var(--color-bg)]">
                 {option.label}
               </option>

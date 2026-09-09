@@ -48,7 +48,8 @@ const SECTIONS = `
     _type == "comingSoonSection" => { heading, body, cta { ${LINK} } },
     _type == "contactCtaSection" => {
       heading, intro, purpose, confirmation,
-      "classOptions": *[_type == "class" && active == true] | order(order asc) { _id, title }
+      "classOptions": *[_type == "class" && active == true] | order(order asc) { _id, title },
+      "workshopOptions": *[_type == "workshop" && startDate >= now()] | order(startDate asc) { _id, title, startDate }
     }
   }
 `;

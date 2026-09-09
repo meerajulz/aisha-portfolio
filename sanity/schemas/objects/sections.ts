@@ -150,12 +150,13 @@ export const contactCtaSection = defineType({
       name: "purpose",
       title: "Tipo de formulario",
       description:
-        "«Contacto general» para preguntas normales. «Clases» añade el selector de clase, el nivel y la disponibilidad.",
+        "«Contacto general» para preguntas normales. «Clases» añade el selector de clase, el nivel y la disponibilidad. «Workshops» añade el selector de workshop.",
       type: "string",
       options: {
         list: [
           { title: "Contacto general", value: "general" },
           { title: "Clases", value: "class" },
+          { title: "Workshops", value: "workshop" },
         ],
         layout: "radio",
       },
@@ -167,7 +168,12 @@ export const contactCtaSection = defineType({
     select: { title: "heading.es", purpose: "purpose" },
     prepare: ({ title, purpose }) => ({
       title: title || "Contacto",
-      subtitle: purpose === "class" ? "Formulario · Clases" : "Formulario de contacto",
+      subtitle:
+        purpose === "class"
+          ? "Formulario · Clases"
+          : purpose === "workshop"
+            ? "Formulario · Workshops"
+            : "Formulario de contacto",
     }),
   },
 });
